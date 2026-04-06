@@ -30,7 +30,7 @@ An interactive, gesture-controlled visual experience inspired by the divine Suda
 
 ---
 
-## 🧠 Tech Stack
+##  Tech Stack
 
 * HTML5 Canvas
 * JavaScript (Vanilla)
@@ -39,7 +39,7 @@ An interactive, gesture-controlled visual experience inspired by the divine Suda
 
 ---
 
-## 🎮 How It Works
+##  How It Works
 
 1. Allow camera access
 2. Show your hand to the camera
@@ -49,7 +49,7 @@ An interactive, gesture-controlled visual experience inspired by the divine Suda
 
 ---
 
-## 📌 Highlights
+##  Highlights
 
 * Custom rendering engine built using Canvas
 * State machine-driven interaction system
@@ -58,16 +58,16 @@ An interactive, gesture-controlled visual experience inspired by the divine Suda
 
 ---
 
-## 👤 Creator
+##  Creator
 
 **Amogh Poonakar**
 
 ---
 
-## 🚀 Project Intent
+##  Project Intent
 
 This project was built as a fun experimental concept combining mythology, computer vision, and real-time graphics — pushing the limits of what can be done using just browser technologies.
 
 ---
 
-Radhey Radhey ✨♥️
+## Radhey Radhey ✨♥️
