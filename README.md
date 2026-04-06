@@ -70,6 +70,4 @@ This project was built as a fun experimental concept combining mythology, comput
 
 ---
 
-## Radhey Radhey ✨♥️
-
 Radhey Radhey ✨♥️
