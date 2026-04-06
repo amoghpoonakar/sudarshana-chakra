@@ -1,6 +1,6 @@
-# Sudarshan Chakra 🌀
+# Sudarshana Chakra 🌀
 
-An interactive, gesture-controlled visual experience inspired by the divine Sudarshan Chakra. This project uses real-time hand tracking to summon, control, and launch a dynamically rendered chakra with cinematic effects directly in the browser.
+An interactive, gesture-controlled visual experience inspired by the divine Sudarshana Chakra. This project uses real-time hand tracking to summon, control, and launch a dynamically rendered chakra with cinematic effects directly in the browser.
 
 ---
 
