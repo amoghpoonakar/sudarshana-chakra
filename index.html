@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sudarshan Chakra</title>
+  <title>Sudarshana Chakra</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
@@ -12,103 +12,66 @@
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700&display=swap');
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      background: #000;
-      overflow: hidden;
-      font-family: 'Cinzel', serif;
-    }
-
+    body { background: #000; overflow: hidden; font-family: 'Cinzel', serif; }
     #v_src {
       position: absolute; top: 0; left: 0;
       width: 100vw; height: 100vh;
-      object-fit: cover;
-      transform: scaleX(-1);
+      object-fit: cover; transform: scaleX(-1);
       z-index: 1;
     }
-
     #fx_canvas {
       position: absolute; top: 0; left: 0;
       width: 100vw; height: 100vh;
-      z-index: 3;
-      pointer-events: none;
+      z-index: 3; pointer-events: none;
     }
-
     .vignette {
       position: absolute; top: 0; left: 0;
       width: 100vw; height: 100vh;
       background: radial-gradient(ellipse at center,
-        rgba(0,0,0,0) 30%,
-        rgba(0,0,0,0.55) 70%,
-        rgba(0,0,0,0.82) 100%);
-      pointer-events: none;
-      z-index: 4;
+        rgba(0,0,0,0) 30%, rgba(0,0,0,0.55) 70%, rgba(0,0,0,0.82) 100%);
+      pointer-events: none; z-index: 4;
     }
-
     .tint {
       position: absolute; top: 0; left: 0;
       width: 100vw; height: 100vh;
       background: rgba(5, 3, 0, 0.32);
       mix-blend-mode: multiply;
-      pointer-events: none;
-      z-index: 2;
+      pointer-events: none; z-index: 2;
     }
-
     #hud {
       position: absolute; top: 0; left: 0;
       width: 100vw; height: 100vh;
-      pointer-events: none;
-      z-index: 10;
+      pointer-events: none; z-index: 10;
     }
-
     #title {
       position: absolute;
       top: 22px; left: 50%; transform: translateX(-50%);
       font-family: 'Cinzel Decorative', serif;
-      font-size: 17px;
-      letter-spacing: 0.35em;
+      font-size: 17px; letter-spacing: 0.35em;
       color: #f0c060;
-      text-shadow: 0 0 18px rgba(240, 180, 60, 0.9), 0 0 40px rgba(200,120,0,0.5);
-      white-space: nowrap;
-      text-transform: uppercase;
+      text-shadow: 0 0 18px rgba(240,180,60,0.9), 0 0 40px rgba(200,120,0,0.5);
+      white-space: nowrap; text-transform: uppercase;
     }
-
     #status {
       position: absolute;
       bottom: 28px; left: 50%; transform: translateX(-50%);
-      font-size: 13px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: #d4a040;
-      text-shadow: 0 0 12px rgba(220, 160, 50, 0.6);
-      white-space: nowrap;
-      transition: color 0.3s, text-shadow 0.3s;
+      font-size: 13px; letter-spacing: 0.22em;
+      text-transform: uppercase; color: #d4a040;
+      text-shadow: 0 0 12px rgba(220,160,50,0.6);
+      white-space: nowrap; transition: color 0.3s, text-shadow 0.3s;
     }
-
-    #status.ready {
-      color: #ffe090;
-      text-shadow: 0 0 16px rgba(255,220,100,0.8);
-    }
-    #status.launched {
-      color: #ffcc00;
-      text-shadow: 0 0 16px rgba(255,200,0,0.7);
-    }
-
+    #status.ready   { color: #ffe090; text-shadow: 0 0 16px rgba(255,220,100,0.8); }
+    #status.launched { color: #ffcc00; text-shadow: 0 0 16px rgba(255,200,0,0.7); }
     #cam-error {
       position: absolute; top: 50%; left: 50%;
       transform: translate(-50%,-50%);
       color: #ff4444; font-size: 14px; text-align: center;
       display: none; z-index: 20; letter-spacing: 0.08em;
     }
-
     #watermark {
-      position: absolute;
-      bottom: 60px; right: 28px;
-      font-size: 32px;
-      color: rgba(200, 150, 30, 0.15);
-      pointer-events: none;
-      z-index: 5;
-      user-select: none;
+      position: absolute; bottom: 60px; right: 28px;
+      font-size: 32px; color: rgba(200,150,30,0.15);
+      pointer-events: none; z-index: 5; user-select: none;
     }
   </style>
 </head>
@@ -120,7 +83,7 @@
   <div class="vignette"></div>
 
   <div id="hud">
-    <div id="title">✦ Sudarshan Chakra ✦</div>
+    <div id="title">✦ Sudarshana Chakra ✦</div>
     <div id="status">Show your hand to summon</div>
     <div id="watermark">ॐ</div>
   </div>
@@ -128,30 +91,25 @@
   <div id="cam-error">Camera access denied or unavailable.<br>Please allow camera permission and reload.</div>
 
   <script>
-  const video   = document.getElementById('v_src');
-  const canvas  = document.getElementById('fx_canvas');
-  const ctx     = canvas.getContext('2d');
+  const video  = document.getElementById('v_src');
+  const canvas = document.getElementById('fx_canvas');
+  const ctx    = canvas.getContext('2d');
 
-  function resize() {
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
   resize();
   window.addEventListener('resize', resize);
 
-  // ── CONSTANTS ─────────────────────────────────────────────────────────────
-  const R          = 170;      // base chakra outer ring radius
-  const SPIKE_N    = 32;       // many small spikes on outer ring (like image)
-  const TILT_DEG   = 18;       // perspective tilt
-  const ROT_SPEED  = 7.5;      // deg/frame when locked
-  const LAUNCH_ROT = 30.0;     // deg/frame when flying (faster spin)
-  const LAUNCH_SPD = 70;       // px/frame (faster travel)
-  const FLICK_THR  = 22;       // flick speed threshold
+  const R          = 170;
+  const SPIKE_N    = 32;
+  const TILT_DEG   = 18;
+  const ROT_SPEED  = 7.5;
+  const LAUNCH_ROT = 30.0;
+  const LAUNCH_SPD = 70;
+  const FLICK_THR  = 22;
   const TRAIL_N    = 12;
   const SIN_T      = Math.sin(TILT_DEG * Math.PI / 180);
-  const ZOOM_RATE  = 0.025;    // faster zoom-out when launched
+  const ZOOM_RATE  = 0.025;
 
-  // Concentric rings (relative to R): outer, mid, inner-mid, inner, hub-rim
   const RINGS = [
     { r: 1.00, w: 10 },
     { r: 0.72, w: 8  },
@@ -160,13 +118,11 @@
     { r: 0.16, w: 4  },
   ];
 
-  // Spoke count between rings
   const SPOKE_CONFIGS = [
     { rIn: 0.16, rOut: 0.72, n: 16 },
     { rIn: 0.72, rOut: 1.00, n: 32 },
   ];
 
-  // Spike offsets on outer ring
   const STEP = 360 / SPIKE_N;
   const SPIKE_OFFSETS = [];
   for (let i = 0; i < SPIKE_N; i++) {
@@ -181,13 +137,9 @@
 
   function proj(rw, thetaDeg, cx, cy) {
     const t = toRad(thetaDeg);
-    return [
-      cx + rw * Math.cos(t),
-      cy - rw * Math.sin(t) * SIN_T
-    ];
+    return [ cx + rw * Math.cos(t), cy - rw * Math.sin(t) * SIN_T ];
   }
 
-  // ── GLOW CANVAS ───────────────────────────────────────────────────────────
   const glowCanvas = document.createElement('canvas');
   const glowCtx    = glowCanvas.getContext('2d');
   function syncGlow() { glowCanvas.width = canvas.width; glowCanvas.height = canvas.height; }
@@ -214,46 +166,30 @@
     glowCtx.restore();
   }
 
-  // ── GOLDEN COLOR HELPERS ──────────────────────────────────────────────────
-  // Stone-gold palette matching the image
-  const GOLD_DARK    = '#6b4a1a';
-  const GOLD_MID     = '#a07030';
-  const GOLD_LIGHT   = '#d4a040';
-  const GOLD_BRIGHT  = '#f0d080';
-  const GOLD_SHINE   = '#fff5cc';
-  const STONE_DARK   = '#3d2a0a';
-  const STONE_MID    = '#7a5520';
+  const GOLD_DARK   = '#6b4a1a';
+  const GOLD_MID    = '#a07030';
+  const GOLD_LIGHT  = '#d4a040';
+  const GOLD_BRIGHT = '#f0d080';
+  const GOLD_SHINE  = '#fff5cc';
+  const STONE_DARK  = '#3d2a0a';
+  const STONE_MID   = '#7a5520';
 
-  // ── DRAW CHAKRA ───────────────────────────────────────────────────────────
   function drawChakra(cx, cy, angleDeg, scale = 1.0, alpha = 1.0) {
     const r = R * scale;
     if (r < 4) return;
-
     ctx.save();
     ctx.globalAlpha = alpha;
-
-    // ── Fill disc background (stone texture simulation) ────────────────────
     const discRx = r;
     const discRy = Math.max(1, r * SIN_T);
-
-    // Dark stone base
     ctx.fillStyle = STONE_DARK;
     ctx.beginPath();
     ctx.ellipse(cx, cy, discRx, discRy, 0, 0, Math.PI*2);
     ctx.fill();
-
-    // ── Concentric rings ───────────────────────────────────────────────────
     for (let ri = 0; ri < RINGS.length; ri++) {
       const ring = RINGS[ri];
       const rr   = r * ring.r;
       const ry   = Math.max(1, rr * SIN_T);
       const rw   = ring.w * scale;
-      const lit  = ri % 2 === 0;  // alternate lighting for depth
-
-      // Ring fill (carved stone with highlight)
-      const isOuter = ri === 0;
-
-      // Dark groove before ring
       if (ri > 0) {
         const prev = RINGS[ri - 1];
         const gapR = r * (prev.r - 0.04);
@@ -264,144 +200,94 @@
         ctx.ellipse(cx, cy, gapR, gapY, 0, 0, Math.PI*2);
         ctx.stroke();
       }
-
-      // Ring top face (light catches the top of each ring)
       const ringGrad = ctx.createLinearGradient(cx, cy - rr, cx, cy + rr);
-      ringGrad.addColorStop(0,   GOLD_BRIGHT);
+      ringGrad.addColorStop(0,    GOLD_BRIGHT);
       ringGrad.addColorStop(0.25, GOLD_LIGHT);
       ringGrad.addColorStop(0.5,  GOLD_MID);
       ringGrad.addColorStop(0.75, STONE_MID);
       ringGrad.addColorStop(1,    STONE_DARK);
-
       ctx.strokeStyle = ringGrad;
       ctx.lineWidth   = rw;
       ctx.beginPath();
       ctx.ellipse(cx, cy, rr, ry, 0, 0, Math.PI*2);
       ctx.stroke();
-
-      // Highlight line (specular)
       ctx.strokeStyle = `rgba(255, 245, 200, ${alpha * 0.35})`;
       ctx.lineWidth   = Math.max(0.5, rw * 0.2);
       ctx.beginPath();
       ctx.ellipse(cx, cy, rr + rw*0.1, Math.max(1, (rr + rw*0.1) * SIN_T), 0, Math.PI * 1.1, Math.PI * 1.9);
       ctx.stroke();
-
-      // Glow per ring
       glowEllipse(cx, cy, rr, ry, `rgba(180,120,30,${alpha*0.25})`, rw+4, 14);
     }
-
-    // ── Spokes between rings ───────────────────────────────────────────────
     for (const sc of SPOKE_CONFIGS) {
-      const rIn  = r * sc.rIn;
-      const rOut = r * sc.rOut;
-      const rInY  = Math.max(1, rIn  * SIN_T);
-      const rOutY = Math.max(1, rOut * SIN_T);
+      const rIn   = r * sc.rIn;
+      const rOut  = r * sc.rOut;
       const step  = 360 / sc.n;
       for (let i = 0; i < sc.n; i++) {
         const a = angleDeg + i * step;
         const [x1, y1] = proj(rIn,  a, cx, cy);
         const [x2, y2] = proj(rOut, a, cx, cy);
-
-        // Spoke body
         ctx.strokeStyle = GOLD_MID;
         ctx.lineWidth   = 1.2 * scale;
         ctx.globalAlpha = alpha * 0.7;
-        ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.stroke();
-
-        // Spoke highlight edge
+        ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
         ctx.strokeStyle = GOLD_BRIGHT;
         ctx.lineWidth   = 0.4 * scale;
         ctx.globalAlpha = alpha * 0.4;
-        ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
       }
     }
     ctx.globalAlpha = alpha;
-
-    // ── Outer spikes ───────────────────────────────────────────────────────
     const rOut  = r + 38 * scale;
     const rBase = r - 4  * scale;
-
     for (const [tipOff, blOff, brOff] of SPIKE_OFFSETS) {
       const [tx, ty]   = proj(rOut,  angleDeg + tipOff, cx, cy);
       const [blx, bly] = proj(rBase, angleDeg + blOff,  cx, cy);
       const [brx, bry] = proj(rBase, angleDeg + brOff,  cx, cy);
-
-      // Spike body — gradient from gold tip to dark base
       const sg = ctx.createLinearGradient(tx, ty, (blx+brx)/2, (bly+bry)/2);
-      sg.addColorStop(0,   GOLD_SHINE);
-      sg.addColorStop(0.2, GOLD_BRIGHT);
+      sg.addColorStop(0,    GOLD_SHINE);
+      sg.addColorStop(0.2,  GOLD_BRIGHT);
       sg.addColorStop(0.55, GOLD_LIGHT);
       sg.addColorStop(0.8,  GOLD_MID);
       sg.addColorStop(1,    STONE_DARK);
-
       ctx.beginPath();
-      ctx.moveTo(tx, ty);
-      ctx.lineTo(blx, bly);
-      ctx.lineTo(brx, bry);
+      ctx.moveTo(tx, ty); ctx.lineTo(blx, bly); ctx.lineTo(brx, bry);
       ctx.closePath();
-      ctx.fillStyle = sg;
-      ctx.fill();
-
-      // Dark edge line for carved look
+      ctx.fillStyle = sg; ctx.fill();
       ctx.strokeStyle = `rgba(30, 15, 0, ${alpha * 0.6})`;
-      ctx.lineWidth   = 0.5;
-      ctx.stroke();
-
-      // Glow for spikes
+      ctx.lineWidth   = 0.5; ctx.stroke();
       glowCtx.save();
       glowCtx.globalAlpha = alpha * 0.18;
       glowCtx.fillStyle   = '#d4a040';
-      glowCtx.shadowBlur  = 12;
-      glowCtx.shadowColor = '#a07030';
+      glowCtx.shadowBlur  = 12; glowCtx.shadowColor = '#a07030';
       glowCtx.beginPath();
-      glowCtx.moveTo(tx, ty);
-      glowCtx.lineTo(blx, bly);
-      glowCtx.lineTo(brx, bry);
-      glowCtx.closePath();
-      glowCtx.fill();
+      glowCtx.moveTo(tx, ty); glowCtx.lineTo(blx, bly); glowCtx.lineTo(brx, bry);
+      glowCtx.closePath(); glowCtx.fill();
       glowCtx.restore();
     }
-
-    // ── Inner hole ─────────────────────────────────────────────────────────
     const holeR  = r * 0.10;
     const holeRy = Math.max(1, holeR * SIN_T);
     ctx.fillStyle = '#0a0500';
     ctx.beginPath();
     ctx.ellipse(cx, cy, holeR, holeRy, 0, 0, Math.PI*2);
     ctx.fill();
-
-    // Hole rim
     ctx.strokeStyle = GOLD_MID;
     ctx.lineWidth   = 2 * scale;
     ctx.beginPath();
     ctx.ellipse(cx, cy, holeR + 3*scale, holeRy + 1*scale, 0, 0, Math.PI*2);
     ctx.stroke();
-
-    // ── Center hub ─────────────────────────────────────────────────────────
     const hubR = Math.max(2, 7 * scale);
     glowCircle(cx, cy, hubR + 8, `rgba(220,180,60,${alpha})`, 16);
     const hg = ctx.createRadialGradient(cx, cy - hubR*0.3, 0, cx, cy, hubR);
-    hg.addColorStop(0, GOLD_SHINE);
+    hg.addColorStop(0,   GOLD_SHINE);
     hg.addColorStop(0.4, GOLD_BRIGHT);
-    hg.addColorStop(1, GOLD_MID);
+    hg.addColorStop(1,   GOLD_MID);
     ctx.fillStyle = hg;
-    ctx.shadowBlur  = 12;
-    ctx.shadowColor = '#f0c060';
-    ctx.beginPath();
-    ctx.arc(cx, cy, hubR, 0, Math.PI*2);
-    ctx.fill();
+    ctx.shadowBlur  = 12; ctx.shadowColor = '#f0c060';
+    ctx.beginPath(); ctx.arc(cx, cy, hubR, 0, Math.PI*2); ctx.fill();
     ctx.shadowBlur = 0;
-
     ctx.restore();
   }
 
-  // ── LIGHTNING ──────────────────────────────────────────────────────────────
   class Lightning {
     constructor(tx, ty) {
       this.tx = tx; this.ty = ty;
@@ -414,9 +300,7 @@
       while (y < this.ty) {
         const nx = x + rand(-38, 38);
         const ny = Math.min(y + rand(22, 58), this.ty);
-        if (Math.random() < 0.35) {
-          segs.push([[x, y], [nx + rand(-48, 48), ny - rand(8, 40)], true]);
-        }
+        if (Math.random() < 0.35) segs.push([[x, y], [nx + rand(-48, 48), ny - rand(8, 40)], true]);
         segs.push([[x, y], [nx, ny], false]);
         x = nx; y = ny;
       }
@@ -424,7 +308,7 @@
     }
     alive() { return (now() - this.born) < this.dur; }
     draw() {
-      const age = now() - this.born;
+      const age  = now() - this.born;
       const fade = Math.max(0, 1 - age / this.dur) * (0.6 + Math.random() * 0.4);
       ctx.save();
       for (const [[x1,y1],[x2,y2], branch] of this.segs) {
@@ -437,9 +321,7 @@
       }
       ctx.restore();
       const frac = age / this.dur;
-      if (frac < 0.30) {
-        glowCircle(this.tx, this.ty, (1-frac/0.30)*38, `rgba(0,255,255,${fade})`, 28);
-      }
+      if (frac < 0.30) glowCircle(this.tx, this.ty, (1-frac/0.30)*38, `rgba(0,255,255,${fade})`, 28);
     }
   }
 
@@ -462,15 +344,15 @@
     update() {
       this.trail.push({ x: this.x, y: this.y, rot: this.rot, zoom: this.zoom });
       if (this.trail.length > TRAIL_N) this.trail.shift();
-      this.x    += this.vx;
-      this.y    += this.vy;
-      this.rot  += LAUNCH_ROT;
+      this.x   += this.vx;
+      this.y   += this.vy;
+      this.rot += LAUNCH_ROT;
       this.zoom += ZOOM_RATE;
     }
     outOfFrame() {
       const effR = R * this.zoom + 80;
       const W = canvas.width, H = canvas.height;
-      return this.x < -effR || this.x > W + effR || this.y < -effR || this.y > H + effR;
+      return this.x < -effR || this.x > W+effR || this.y < -effR || this.y > H+effR;
     }
     draw() {
       const n = this.trail.length;
@@ -483,11 +365,9 @@
     }
   }
 
-  // ── FLICK DETECTION ────────────────────────────────────────────────────────
   const flickBuf = [];
   const FLICK_BUF_MAX = 5;
 
-  // ── STATE MACHINE ──────────────────────────────────────────────────────────
   const S = { IDLE: 0, LIGHTNING: 1, SPAWNING: 2, READY: 3, LAUNCHED: 4 };
   let state = S.IDLE;
   let lit = null, spawn = null, launched = null;
@@ -495,11 +375,11 @@
 
   const statusEl = document.getElementById('status');
   const STATUS_MSGS = {
-    [S.IDLE]:      ['Show your hand to summon',           ''],
-    [S.LIGHTNING]: ['Summoning the Sudarshan Chakra…',    ''],
-    [S.SPAWNING]:  ['Chakra materialising…',              ''],
-    [S.READY]:     ['Chakra locked — FLICK to launch',    'ready'],
-    [S.LAUNCHED]:  ['Sudarshan flies…',                   'launched'],
+    [S.IDLE]:      ['Show your hand to summon',        ''],
+    [S.LIGHTNING]: ['Summoning the Sudarshana Chakra…', ''],
+    [S.SPAWNING]:  ['Chakra materialising…',            ''],
+    [S.READY]:     ['Chakra locked — FLICK to launch',  'ready'],
+    [S.LAUNCHED]:  ['Sudarshana flies…',                'launched'],
   };
 
   function setStatus(st) {
@@ -508,7 +388,6 @@
     statusEl.className   = cls;
   }
 
-  // ── RENDER LOOP ────────────────────────────────────────────────────────────
   function render() {
     const W = canvas.width, H = canvas.height;
     ctx.clearRect(0, 0, W, H);
@@ -543,14 +422,9 @@
     if (state === S.LAUNCHED && launched) {
       launched.update();
       launched.draw();
-      if (launched.outOfFrame()) {
-        launched = null;
-        state    = S.IDLE;
-        setStatus(S.IDLE);
-      }
+      if (launched.outOfFrame()) { launched = null; state = S.IDLE; setStatus(S.IDLE); }
     }
 
-    // Composite glow
     ctx.save();
     ctx.globalCompositeOperation = 'screen';
     ctx.globalAlpha = 0.75;
@@ -561,15 +435,12 @@
   }
   requestAnimationFrame(render);
 
-  // ── MEDIAPIPE ──────────────────────────────────────────────────────────────
   const hands = new Hands({
     locateFile: f => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${f}`
   });
   hands.setOptions({
-    maxNumHands: 1,
-    modelComplexity: 0,
-    minDetectionConfidence: 0.70,
-    minTrackingConfidence: 0.65
+    maxNumHands: 1, modelComplexity: 0,
+    minDetectionConfidence: 0.70, minTrackingConfidence: 0.65
   });
   hands.onResults(onResults);
 
@@ -578,7 +449,7 @@
     tipPos = null;
     if (handUp) {
       const lms = results.multiHandLandmarks[0];
-      const t = lms[8];
+      const t   = lms[8];
       tipPos = { x: (1 - t.x) * canvas.width, y: t.y * canvas.height };
     }
 
@@ -618,7 +489,6 @@
     }
   }
 
-  // ── CAMERA ─────────────────────────────────────────────────────────────────
   const cam = new Camera(video, {
     onFrame: async () => { await hands.send({ image: video }); },
     width: 1280, height: 720
