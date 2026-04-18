@@ -24,20 +24,6 @@
       width: 100vw; height: 100vh;
       z-index: 3; pointer-events: none;
     }
-    .vignette {
-      position: absolute; top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: radial-gradient(ellipse at center,
-        rgba(0,0,0,0) 30%, rgba(0,0,0,0.55) 70%, rgba(0,0,0,0.82) 100%);
-      pointer-events: none; z-index: 4;
-    }
-    .tint {
-      position: absolute; top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(5, 3, 0, 0.32);
-      mix-blend-mode: multiply;
-      pointer-events: none; z-index: 2;
-    }
     #hud {
       position: absolute; top: 0; left: 0;
       width: 100vw; height: 100vh;
@@ -78,9 +64,7 @@
 <body>
 
   <video id="v_src" autoplay playsinline muted></video>
-  <div class="tint"></div>
   <canvas id="fx_canvas"></canvas>
-  <div class="vignette"></div>
 
   <div id="hud">
     <div id="title">✦ Sudarshana Chakra ✦</div>
