@@ -179,6 +179,18 @@
     const now = () => performance.now() / 1000;
     const toRad = d => d * Math.PI / 180;
 
+    function isOnlyIndexFingerUp(lms) {
+      // Index finger up
+      const indexUp = lms[8].y < lms[6].y;
+
+      // Other fingers folded
+      const middleDown = lms[12].y > lms[10].y;
+      const ringDown = lms[16].y > lms[14].y;
+      const pinkyDown = lms[20].y > lms[18].y;
+
+      return indexUp && middleDown && ringDown && pinkyDown;
+    }
+
     function proj(rw, thetaDeg, cx, cy) {
       const t = toRad(thetaDeg);
       return [cx + rw * Math.cos(t), cy - rw * Math.sin(t) * SIN_T];
@@ -416,6 +428,7 @@
     let state = S.IDLE;
     let lit = null, spawn = null, launched = null;
     let chakraAngle = 0, tipPos = null;
+    let summonStart = 0;
 
     const statusEl = document.getElementById('status');
     const STATUS_MSGS = {
@@ -493,26 +506,43 @@
     function onResults(results) {
       const handUp = !!(results.multiHandLandmarks && results.multiHandLandmarks.length > 0);
       tipPos = null;
+      let lms = null;
       if (handUp) {
-        const lms = results.multiHandLandmarks[0];
+        lms = results.multiHandLandmarks[0];
         const t = lms[8];
         tipPos = { x: (1 - t.x) * canvas.width, y: t.y * canvas.height };
       }
 
       if (state === S.IDLE) {
-        if (handUp && tipPos) {
-          lit = new Lightning(tipPos.x, tipPos.y);
-          lightningSound.currentTime = 0;
-          lightningSound.play();
+        if (handUp && tipPos && isOnlyIndexFingerUp(lms)) {
 
-          // Spawn instantly
-          spawn = new Spawn();
-          chakraAngle = 0;
+          if (summonStart === 0) {
+            summonStart = performance.now();
+          }
 
-          state = S.SPAWNING;
-          setStatus(S.SPAWNING);
+          const heldLongEnough =
+            performance.now() - summonStart > 700;
 
-          flickBuf.length = 0;
+          if (heldLongEnough) {
+
+            lit = new Lightning(tipPos.x, tipPos.y);
+
+            lightningSound.currentTime = 0;
+            lightningSound.play();
+
+            spawn = new Spawn();
+            chakraAngle = 0;
+
+            state = S.SPAWNING;
+            setStatus(S.SPAWNING);
+
+            flickBuf.length = 0;
+
+            summonStart = 0;
+          }
+
+        } else {
+          summonStart = 0;
         }
       } else if (state === S.SPAWNING) {
         if (!handUp) { state = S.IDLE; spawn = null; setStatus(S.IDLE); }
