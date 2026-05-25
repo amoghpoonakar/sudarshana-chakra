@@ -153,6 +153,9 @@
     const ZOOM_RATE = 0.025;
     const lightningSound = new Audio('lightning.mp3');
     lightningSound.volume = 0.6;
+    const spinningSound = new Audio('spinning.mp3');
+    spinningSound.volume = 0.45;
+    spinningSound.loop = true;
 
     const RINGS = [
       { r: 1.00, w: 10 },
@@ -474,6 +477,10 @@
         launched.update();
         launched.draw();
         if (launched.outOfFrame()) {
+
+          spinningSound.pause();
+          spinningSound.currentTime = 0;
+
           launched = null;
 
           setTimeout(() => {
@@ -528,6 +535,8 @@
 
             lightningSound.currentTime = 0;
             lightningSound.play();
+            spinningSound.currentTime = 0;
+            spinningSound.play();
 
             spawn = new Spawn();
             chakraAngle = 0;
@@ -544,10 +553,24 @@
           summonStart = 0;
         }
       } else if (state === S.SPAWNING) {
-        if (!handUp) { state = S.IDLE; spawn = null; setStatus(S.IDLE); }
+        if (!handUp) {
+
+          spinningSound.pause();
+          spinningSound.currentTime = 0;
+
+          state = S.IDLE;
+          spawn = null;
+          setStatus(S.IDLE);
+        }
       } else if (state === S.READY) {
         if (!handUp) {
-          state = S.IDLE; flickBuf.length = 0; setStatus(S.IDLE);
+
+          spinningSound.pause();
+          spinningSound.currentTime = 0;
+
+          state = S.IDLE;
+          flickBuf.length = 0;
+          setStatus(S.IDLE);
         } else {
           flickBuf.push(tipPos);
           if (flickBuf.length > FLICK_BUF_MAX) flickBuf.shift();
