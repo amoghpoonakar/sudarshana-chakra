@@ -450,8 +450,6 @@
     function render() {
       const W = canvas.width, H = canvas.height;
       ctx.clearRect(0, 0, W, H);
-      ctx.fillStyle = 'rgba(0,2,8,0.50)';
-      ctx.fillRect(0, 0, W, H);
       glowCtx.clearRect(0, 0, W, H);
 
       if (lit && lit.alive()) {
@@ -590,7 +588,7 @@
             }
           }
         }
-      }
+      }6
     }
 
     const cam = new Camera(video, {
@@ -605,4 +603,3 @@
 </body>
 
 </html>
-
